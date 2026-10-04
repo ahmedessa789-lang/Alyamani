@@ -14,7 +14,12 @@ main{padding:15px}.page{display:none}.page.active{display:block}.card{background
 .tables{display:grid;grid-template-columns:repeat(10,minmax(70px,1fr));gap:7px}.table{min-height:70px;border:0;border-radius:10px;cursor:pointer;background:#e7f5ec}.table.busy{background:#fee2e2}.table span{display:block;font-size:11px;margin-top:5px}
 h2,h3{margin-top:0}.muted{color:#6b7280;font-size:12px}.search{width:260px}.hidden{display:none!important}
 @media(max-width:1000px){.layout{grid-template-columns:150px 1fr}.pos{grid-template-columns:1fr}.cats,.products{grid-template-columns:repeat(3,1fr)}.tables{grid-template-columns:repeat(5,1fr)}.metrics{grid-template-columns:repeat(2,1fr)}}
-</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head><body>
+</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+.tile.cat-colored,.tile.product-colored{transition:transform .12s ease,filter .12s ease;box-shadow:0 2px 5px rgba(0,0,0,.08)}
+.tile.cat-colored:hover,.tile.product-colored:hover{transform:translateY(-2px);filter:brightness(.96)}
+</style>
+</head><body>
 <header><div><b>☕ محسوبك - بن اليماني</b><div style="font-size:11px">النظام المركزي متعدد الفروع</div></div>
 <div><select id="branch"><option value="TH">طلعت حرب</option><option value="MS">مسرة</option></select> &nbsp; Owner &nbsp; <span id="dbStatus">⏳ Supabase</span></div></header>
 <div class="layout"><aside><nav id="nav">
@@ -81,4 +86,34 @@ async function testSupabase(){
  }
 }
 renderMenu();renderCart();renderTables();testSupabase();
+
+const CATEGORY_COLORS={
+ 'Coffee Corner':'#6F4E37',
+ 'Hot Drinks':'#B85C38',
+ 'Fresh Juices':'#E59F23',
+ 'Iced Coffee':'#547AA5',
+ 'Smoothies':'#8B5FBF',
+ 'Mojito':'#2A9D8F',
+ 'Cocktail':'#D65A7A',
+ 'Milk Shake':'#C17C9B',
+ 'Soft Drinks':'#3A86A8',
+ 'Extra':'#6B7280',
+ 'Coffee Beans / بن مطحون':'#8A6A3D'
+};
+function applyMenuColors(){
+ document.querySelectorAll('#menu .tile').forEach(btn=>{
+   let cat=null;
+   if(!selectedCat){
+     const label=(btn.textContent||'').trim();
+     cat=Object.keys(CATEGORY_COLORS).find(c=>label.startsWith(c));
+     btn.classList.add('cat-colored');
+   }else{
+     cat=selectedCat; btn.classList.add('product-colored');
+   }
+   if(cat && CATEGORY_COLORS[cat]) btn.style.background=CATEGORY_COLORS[cat];
+ });
+}
+const _renderMenuOriginal=renderMenu;
+renderMenu=function(){_renderMenuOriginal();applyMenuColors();}
+renderMenu();
 </script></body></html>
