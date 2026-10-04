@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>محسوبك - بن اليماني | النظام المركزي</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--text:#17202a;--muted:#6b7280;--line:#e5e7eb;--brand:#5b3a29;--brand2:#8b5e3c;--ok:#16794b;--danger:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:sticky;top:0;z-index:5}
+.brand{font-size:20px;font-weight:700}.sub{font-size:12px;color:var(--muted)}
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:calc(100vh - 64px)}
+aside{background:#fff;border-left:1px solid var(--line);padding:14px;position:sticky;top:64px;height:calc(100vh - 64px);overflow:auto}
+.nav button{width:100%;border:0;background:transparent;padding:11px 12px;margin:2px 0;border-radius:9px;text-align:right;cursor:pointer;font-size:14px}
+.nav button:hover,.nav button.active{background:#f2ebe6;color:var(--brand);font-weight:700}
+main{padding:18px}.toolbar{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-bottom:16px}
+label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}select,input{min-height:40px;border:1px solid #d1d5db;border-radius:8px;padding:0 10px;background:#fff}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.metric{font-size:26px;font-weight:700;margin-top:8px}.muted{color:var(--muted);font-size:12px}
+.section{display:none}.section.active{display:block}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.btn{border:0;border-radius:8px;min-height:40px;padding:0 14px;cursor:pointer}.primary{background:var(--brand);color:#fff}.secondary{background:#fff;border:1px solid var(--line)}
+.notice{padding:12px 14px;background:#fff8e7;border:1px solid #f2d48b;border-radius:10px;margin-bottom:14px}
+table{width:100%;border-collapse:collapse;background:#fff}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:right;font-size:13px}
+.placeholder{min-height:180px;display:flex;align-items:center;justify-content:center;color:var(--muted);border:1px dashed #cbd5e1;border-radius:10px;background:#fafafa}
+@media(max-width:900px){.layout{grid-template-columns:150px 1fr}.cards{grid-template-columns:repeat(2,1fr)}aside{padding:8px}.nav button{font-size:12px;padding:9px 7px}}
+</style>
+</head>
+<body>
+<header>
+  <div><div class="brand">☕ محسوبك - بن اليماني</div><div class="sub">Central Multi-Branch System</div></div>
+  <div><span id="userText">Owner</span> · <span id="branchText">كل الفروع</span> <button class="btn secondary">خروج</button></div>
+</header>
+<div class="layout">
+<aside>
+  <div class="nav" id="nav">
+    <button data-page="dashboard" class="active">لوحة التحكم</button>
+    <button data-page="pos">الكاشير</button>
+    <button data-page="tables">منيو الترابيزات</button>
+    <button data-page="stock">المخازن</button>
+    <button data-page="recipes">الريسيبي والتكلفة</button>
+    <button data-page="sales">المبيعات</button>
+    <button data-page="purchases">المشتريات</button>
+    <button data-page="transfers">تحويلات المخزون</button>
+    <button data-page="staff">الموظفين والحضور</button>
+    <button data-page="expenses">المصروفات</button>
+    <button data-page="suppliers">الموردين</button>
+    <button data-page="customers">قاعدة العملاء</button>
+    <button data-page="shifts">الشيفت والتقفيل</button>
+    <button data-page="reports">التقارير</button>
+    <button data-page="users">المستخدمين والصلاحيات</button>
+    <button data-page="settings">الإعدادات</button>
+  </div>
+</aside>
+<main>
+  <div class="toolbar">
+    <div><label>عرض البيانات</label><select id="branchSelect"><option value="all">كل الفروع</option><option value="TH">طلعت حرب</option><option value="MS">مسرة</option><option value="MAIN">المخزن الرئيسي</option></select></div>
+    <div><label>من</label><input type="date"></div><div><label>إلى</label><input type="date"></div>
+    <button class="btn primary">تحديث</button>
+  </div>
+
+  <section id="dashboard" class="section active">
+    <div class="notice">نسخة الواجهة الأولى. الأرقام غير معروضة عمدًا حتى ربط الواجهة ببيانات Supabase الحقيقية.</div>
+    <div class="cards">
+      <div class="card"><div class="muted">صافي المبيعات</div><div class="metric">—</div></div>
+      <div class="card"><div class="muted">إجمالي المصروفات</div><div class="metric">—</div></div>
+      <div class="card"><div class="muted">إجمالي الربح</div><div class="metric">—</div></div>
+      <div class="card"><div class="muted">المبيعات الآجلة</div><div class="metric">—</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><h3>الفروع</h3><table><tr><th>الفرع</th><th>المبيعات</th><th>الشيفت</th></tr><tr><td>طلعت حرب</td><td>—</td><td>—</td></tr><tr><td>مسرة</td><td>—</td><td>—</td></tr></table></div>
+      <div class="card"><h3>المخزون</h3><table><tr><th>الموقع</th><th>مواد خام</th><th>مستهلكات</th><th>منتجات</th></tr><tr><td>المخزن الرئيسي</td><td>—</td><td>—</td><td>—</td></tr><tr><td>طلعت حرب</td><td>—</td><td>—</td><td>—</td></tr><tr><td>مسرة</td><td>—</td><td>—</td><td>—</td></tr></table></div>
+    </div>
+  </section>
+
+  <section id="pos" class="section"><div class="card"><h2>الكاشير</h2><p>نفس دورة البرنامج القديم: المنيو ← الفاتورة الحالية ← نوع الطلب ← طريقة الدفع ← العميل ← إتمام الطلب والطباعة.</p><div class="placeholder">سيتم ربط المنيو والأصناف بالـ Products / Recipes</div></div></section>
+  <section id="tables" class="section"><div class="card"><h2>منيو الترابيزات</h2><div class="placeholder">ترابيزات الفرع الحالي فقط</div></div></section>
+  <section id="stock" class="section"><div class="card"><h2>المخازن</h2><div class="placeholder">مواد خام · مستهلكات · منتجات</div></div></section>
+  <section id="recipes" class="section"><div class="card"><h2>الريسيبي والتكلفة</h2><div class="placeholder">Recipes + Recipe Items + Cost</div></div></section>
+  <section id="sales" class="section"><div class="card"><h2>المبيعات</h2><div class="placeholder">فواتير ومبيعات الفرع المحدد</div></div></section>
+  <section id="purchases" class="section"><div class="card"><h2>المشتريات</h2><div class="placeholder">المورد ← المخزن ← الأصناف والتكلفة</div></div></section>
+  <section id="transfers" class="section"><div class="card"><h2>تحويلات المخزون</h2><div class="placeholder">المخزن الرئيسي ⇢ مخازن الفروع حسب نوع المخزن</div></div></section>
+  <section id="staff" class="section"><div class="card"><h2>الموظفين والحضور</h2><div class="placeholder">الموظفين · الحضور · السلف · الخصومات · المرتبات</div></div></section>
+  <section id="expenses" class="section"><div class="card"><h2>المصروفات</h2><div class="placeholder">مصروفات الفرع والتصنيفات</div></div></section>
+  <section id="suppliers" class="section"><div class="card"><h2>الموردين</h2><div class="placeholder">الموردين وحركات الحساب</div></div></section>
+  <section id="customers" class="section"><div class="card"><h2>قاعدة العملاء</h2><div class="placeholder">العملاء والمديونيات والتحصيلات</div></div></section>
+  <section id="shifts" class="section"><div class="card"><h2>الشيفت والتقفيل</h2><p>يدعم فترة من/إلى بأي وقت، بما فيها الفترات التي تتخطى منتصف الليل.</p><div class="placeholder">فتح شيفت · تقفيل · نقدي · غير نقدي · آجل · مصروفات · فرق الخزنة</div></div></section>
+  <section id="reports" class="section"><div class="card"><h2>التقارير</h2><div class="placeholder">تقارير Owner مجمعة أو حسب الفرع</div></div></section>
+  <section id="users" class="section"><div class="card"><h2>المستخدمين والصلاحيات</h2><div class="placeholder">Roles · Module Permissions · User Overrides</div></div></section>
+  <section id="settings" class="section"><div class="card"><h2>الإعدادات</h2><div class="placeholder">إعدادات النظام والفروع والطباعة</div></div></section>
+</main>
+</div>
+<script>
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));
+ document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active'); document.getElementById(b.dataset.page).classList.add('active');
+}));
+document.getElementById('branchSelect').addEventListener('change',e=>{
+ const t=e.target.options[e.target.selectedIndex].text;
+ document.getElementById('branchText').textContent=t;
+});
+</script>
+</body></html>
